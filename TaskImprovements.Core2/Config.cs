@@ -10,6 +10,6 @@ public class Config : ManualConfig
     {
         Add(MarkdownExporter.GitHub);
         Add(new MemoryDiagnoser());
-        Add(Job.Default.With(CsProjCoreToolchain.NetCoreApp20));
+        Add(Job.ShortRun.With(CsProjCoreToolchain.NetCoreApp20));
     }
 }
