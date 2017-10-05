@@ -8,8 +8,6 @@ namespace Presentation
     {
         public Task Run()
         {
-            Console.WriteLine("await Task.Run(() => Compute(10)):");
-
             return Task.Run(() => CpuBound.Compute(10));
         }
     }

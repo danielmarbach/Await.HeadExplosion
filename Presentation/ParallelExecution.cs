@@ -12,9 +12,11 @@ namespace Presentation
         {
             var concurrent = Enumerable.Range(0, 4).Select(t => Task.Run(() =>
             {
-                Console.WriteLine($"start {t} / {Thread.CurrentThread.ManagedThreadId}");
+                this.PrintStart(t);
+
                 Thread.Sleep(1500);
-                Console.WriteLine($"done {t} / {Thread.CurrentThread.ManagedThreadId}");
+                
+                this.PrintEnd(t);
             }));
 
             return Task.WhenAll(concurrent);

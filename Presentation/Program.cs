@@ -11,14 +11,16 @@ namespace Presentation
     {
         static async Task Main(string[] args)
         {
+            Console.Clear();
+
             var runnables = (
                 from type in typeof(Program).Assembly.GetTypes()
                 where typeof(IRunnable).IsAssignableFrom(type) && type != typeof(IRunnable)
                 let activatedRunnable = (IRunnable) Activator.CreateInstance(type)
                 let order = type.GetCustomAttribute<OrderAttribute>().Order
                 orderby order
-                select activatedRunnable
-            ).ToDictionary(k => k.GetType().Name.ToLowerInvariant(), v => v);
+                select new { Order = order, ActivatedRunnable = activatedRunnable }
+            ).ToDictionary(k => k.Order, v => v.ActivatedRunnable);
 
             PrintRunnables(runnables);
 
@@ -31,28 +33,52 @@ namespace Presentation
                     PrintRunnables(runnables);
                 }
 
-                if (runnables.TryGetValue(line, out var runnable))
-                {
-                    await runnable.Run()
-                        .ConfigureAwait(false);
+                if(int.TryParse(line, out var itemNumber)) {
+                    if (runnables.TryGetValue(itemNumber, out var runnable))
+                    {
+                        Console.Clear();
+                        var currentColor = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.Gray;
+
+                        await runnable.Run().ConfigureAwait(false);
+
+                        Console.ForegroundColor = currentColor;
+                    }
                 }
             }
         }
 
-        private static void PrintRunnables(Dictionary<string, IRunnable> runnables)
+        private static void PrintRunnables(Dictionary<int, IRunnable> runnables)
         {
-            Console.WriteLine("|================================================|");
-            Console.WriteLine($"{$"| Thread: {Thread.CurrentThread.ManagedThreadId}".PadRight(49)}|");
-            Console.WriteLine("|================================================|");
-
-            Console.WriteLine("Select one of the options:");
-            Console.WriteLine();
-            foreach (var runnable in runnables)
-            {
-                Console.WriteLine($"- {runnable.Key}");
+            var currentThreadId = Thread.CurrentThread.ManagedThreadId;
+            if(threadIds.Count > 4) {
+                threadIds.Clear();
             }
-            Console.WriteLine("- clear");
-            Console.WriteLine("- exit");
+
+            threadIds.Push(currentThreadId);
+
+            var currentColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("|================================================|");
+            Console.WriteLine($"{$"| Thread(s): {string.Join(",", threadIds)}".PadRight(49)}|");
+            Console.WriteLine("|================================================|");
+            Console.WriteLine();
+            foreach (var kvp in runnables)
+            {
+                Console.WriteLine($" ({PadBoth(kvp.Key.ToString(), 5)}) {kvp.Value.GetType().Name}");
+            }
+            Console.WriteLine($" ({PadBoth((runnables.Count).ToString(), 5)}) Clear");
+            Console.WriteLine($" ({PadBoth((runnables.Count + 1).ToString(), 5)}) Exit");
+            Console.ForegroundColor = currentColor;
         }
+
+        static string PadBoth(string source, int length)
+        {
+            int spaces = length - source.Length;
+            int padLeft = spaces/2 + source.Length;
+            return source.PadLeft(padLeft).PadRight(length);
+        }
+
+        static Stack<int> threadIds = new Stack<int>(7);
     }
 }

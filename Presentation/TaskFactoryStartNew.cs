@@ -9,8 +9,6 @@ namespace Presentation
     {
         public Task Run()
         {
-            Console.WriteLine("await Task.Factory.StartNew(() => Compute(10))");
-
             return Task.Factory.StartNew(() => CpuBound.Compute(10), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
         }
     }

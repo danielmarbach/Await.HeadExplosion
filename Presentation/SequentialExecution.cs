@@ -12,9 +12,12 @@ namespace Presentation
         {
             var sequential = Enumerable.Range(0, 4).Select(async t =>
             {
-                Console.WriteLine($"start {t} / {Thread.CurrentThread.ManagedThreadId}");
+                this.PrintStart(t);
+
                 await Task.Delay(1500);
-                Console.WriteLine($"done {t} / {Thread.CurrentThread.ManagedThreadId}");
+
+                this.PrintEnd(t);
+                
             });
 
             foreach (var task in sequential)
@@ -22,6 +25,5 @@ namespace Presentation
                 await task;
             }
         }
-
     }
 }

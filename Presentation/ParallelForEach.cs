@@ -9,9 +9,7 @@ namespace Presentation
     {
         public Task Run()
         {
-            Console.WriteLine("Parallel.ForEach(Enumerable.Range(10, 20), Compute):");
-
-            Parallel.ForEach(Enumerable.Range(10, 20), CpuBound.Compute);
+            Parallel.ForEach(Enumerable.Range(5, 10), CpuBound.Compute);
 
             return Task.CompletedTask;
         }

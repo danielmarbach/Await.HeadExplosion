@@ -14,11 +14,12 @@ namespace Presentation
                 elements[i] = random.Next(0, 100);
             }
 
-            Console.WriteLine($"Unsorted {numberOfElements}/{threadId}: '{string.Join(",", elements)}'");
+            var unsorted = string.Join(",", elements);
+            Console.WriteLine($"Begin {numberOfElements}/{threadId}");
 
             Quicksort(elements, 0, elements.Length - 1);
             
-            Console.WriteLine($"Sorted {numberOfElements}/{threadId}: '{string.Join(",", elements)}'");
+            Console.WriteLine($"Done {numberOfElements}/{threadId}: '{unsorted}' => '{string.Join(",", elements)}'");
         }
 
         static void Quicksort(int[] elements, int left, int right)
