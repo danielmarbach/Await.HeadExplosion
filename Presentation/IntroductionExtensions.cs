@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace Presentation
 {
@@ -6,12 +7,12 @@ namespace Presentation
     {
         public static void PrintStart(this Introduction runnable) 
         {
-            Console.WriteLine("Start");
+            Console.WriteLine($"start {Thread.CurrentThread.ManagedThreadId}");
         }
 
         public static void PrintEnd(this Introduction runnable) 
         {
-            Console.WriteLine("End");
+            Console.WriteLine($"end {Thread.CurrentThread.ManagedThreadId}");
         }        
     }
 }
