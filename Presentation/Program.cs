@@ -42,14 +42,21 @@ namespace Presentation
                         Console.ForegroundColor = ConsoleColor.Gray;
 
                         var stopWatch = Stopwatch.StartNew();
+                        var run = runnable.Run();
                         try
                         {
-                            await runnable.Run().ConfigureAwait(false);
+                            Console.WriteLine($"-- Task state: {run.Status.ToString()}");
+                            await run.ConfigureAwait(false);
+                        }
+                        catch(Exception ex) 
+                        {
+                            Console.WriteLine($"-- Caught: {ex.GetType().Name}('{ex.Message}')");
                         }
                         finally
                         {
                             stopWatch.Stop();
-                            Console.WriteLine($"execution took {stopWatch.Elapsed.ToString()}");
+                            Console.WriteLine($"-- Task state: {run.Status.ToString()}");
+                            Console.WriteLine($"-- Execution time: {stopWatch.Elapsed.ToString()}");
                             Console.ForegroundColor = currentColor;
                         }
                     }
