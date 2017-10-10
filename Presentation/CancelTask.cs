@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation 
+namespace Presentation
 {
     [Order(8)]
     public class CancelTask : IRunnable
