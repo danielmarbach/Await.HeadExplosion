@@ -9,7 +9,7 @@ namespace Presentation
     {
         public Task Run()
         {
-            return Task.Factory.StartNew(() => CpuBound.Compute(10), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+            return Task.Factory.StartNew(() => CpuBound.Compute(10), CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
         }
     }
 }
