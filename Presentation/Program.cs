@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -40,9 +41,17 @@ namespace Presentation
                         var currentColor = Console.ForegroundColor;
                         Console.ForegroundColor = ConsoleColor.Gray;
 
-                        await runnable.Run().ConfigureAwait(false);
-
-                        Console.ForegroundColor = currentColor;
+                        var stopWatch = Stopwatch.StartNew();
+                        try
+                        {
+                            await runnable.Run().ConfigureAwait(false);
+                        }
+                        finally
+                        {
+                            stopWatch.Stop();
+                            Console.WriteLine($"execution took {stopWatch.Elapsed.ToString()}");
+                            Console.ForegroundColor = currentColor;
+                        }
                     }
                 }
             }
@@ -67,8 +76,8 @@ namespace Presentation
             {
                 Console.WriteLine($" ({PadBoth(kvp.Key.ToString(), 5)}) {kvp.Value.GetType().Name}");
             }
-            Console.WriteLine($" ({PadBoth((runnables.Count).ToString(), 5)}) Clear");
-            Console.WriteLine($" ({PadBoth((runnables.Count + 1).ToString(), 5)}) Exit");
+            Console.WriteLine($" ({PadBoth((runnables.Count - 1).ToString(), 5)}) Clear");
+            Console.WriteLine($" ({PadBoth((runnables.Count).ToString(), 5)}) Exit");
             Console.ForegroundColor = currentColor;
         }
 
