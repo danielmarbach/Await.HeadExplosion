@@ -109,11 +109,11 @@ namespace Presentation
             return () => { };
         }
 
-        static void PrintExplainationHeader() 
+        static void PrintExplanationHeader() 
         {
             Console.WriteLine();
             Console.WriteLine("|================================================|");
-            Console.WriteLine($"| {"Remember".PadRight(49)}|");
+            Console.WriteLine($"| {"Remember".PadRight(47)}|");
             Console.WriteLine("|================================================|");
             Console.WriteLine();
         }
@@ -150,6 +150,6 @@ namespace Presentation
         }
 
         static Stack<int> threadIds = new Stack<int>(7);
-        static MethodInfo ExplanationHeaderPrinter = typeof(Program).GetMethod(nameof(PrintExplainationHeader), BindingFlags.NonPublic | BindingFlags.Static);
+        static MethodInfo ExplanationHeaderPrinter = typeof(Program).GetMethod(nameof(PrintExplanationHeader), BindingFlags.NonPublic | BindingFlags.Static);
     }
 }
