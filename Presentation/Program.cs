@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,31 @@ namespace Presentation
 {
     class Program
     {
+        class RunnerWithExplainer 
+        {
+            public RunnerWithExplainer(IRunnable runnable, Action explainer) 
+            {
+                this.runnable = runnable;
+                this.explainer = explainer;
+                this.Name = runnable.GetType().Name;
+            }
+
+            public string Name { get; private set; }
+
+            public Task Run() 
+            {
+                return runnable.Run();
+            }
+
+            public void Explain() 
+            {
+                explainer();
+            }
+
+            IRunnable runnable;
+            Action explainer;
+        }
+
         static async Task Main(string[] args)
         {
             Console.Clear();
@@ -19,9 +45,10 @@ namespace Presentation
                 where typeof(IRunnable).IsAssignableFrom(type) && type != typeof(IRunnable)
                 let activatedRunnable = (IRunnable) Activator.CreateInstance(type)
                 let order = type.GetCustomAttribute<OrderAttribute>().Order
+                let explainer = CreateExplainer(activatedRunnable)
                 orderby order
-                select new { Order = order, ActivatedRunnable = activatedRunnable }
-            ).ToDictionary(k => k.Order, v => v.ActivatedRunnable);
+                select new { Order = order, ActivatedRunnable = activatedRunnable, Explainer = explainer }
+            ).ToDictionary(k => k.Order, v => new RunnerWithExplainer(v.ActivatedRunnable, v.Explainer));
 
             PrintRunnables(runnables);
 
@@ -57,6 +84,9 @@ namespace Presentation
                             stopWatch.Stop();
                             Console.WriteLine($"-- Task state: {run.Status.ToString()}");
                             Console.WriteLine($"-- Execution time: {stopWatch.Elapsed.ToString()}");
+
+                            runnable.Explain();
+
                             Console.ForegroundColor = currentColor;
                         }
                     }
@@ -64,7 +94,31 @@ namespace Presentation
             }
         }
 
-        private static void PrintRunnables(Dictionary<int, IRunnable> runnables)
+        static Action CreateExplainer(IRunnable runnable) 
+        {
+            var extensionType = Type.GetType($"Presentation.{runnable.GetType().Name}Extensions", false);
+            if(extensionType != null) 
+            {
+                var method = extensionType.GetMethod("Explain", BindingFlags.Public | BindingFlags.Static);
+                if(method != null) 
+                {
+                    var block = Expression.Block(Expression.Call(null, ExplanationHeaderPrinter), Expression.Call(null, method, Expression.Constant(runnable)));
+                    return Expression.Lambda<Action>(block).Compile();;
+                }
+            }
+            return () => { };
+        }
+
+        static void PrintExplainationHeader() 
+        {
+            Console.WriteLine();
+            Console.WriteLine("|================================================|");
+            Console.WriteLine($"| {"Remember".PadRight(49)}|");
+            Console.WriteLine("|================================================|");
+            Console.WriteLine();
+        }
+
+        static void PrintRunnables(Dictionary<int, RunnerWithExplainer> runnables)
         {
             var currentThreadId = Thread.CurrentThread.ManagedThreadId;
             if(threadIds.Count > 4) {
@@ -81,7 +135,7 @@ namespace Presentation
             Console.WriteLine();
             foreach (var kvp in runnables)
             {
-                Console.WriteLine($" ({PadBoth(kvp.Key.ToString(), 5)}) {kvp.Value.GetType().Name}");
+                Console.WriteLine($" ({PadBoth(kvp.Key.ToString(), 5)}) {kvp.Value.Name}");
             }
             Console.WriteLine($" ({PadBoth((runnables.Count - 1).ToString(), 5)}) Clear");
             Console.WriteLine($" ({PadBoth((runnables.Count).ToString(), 5)}) Exit");
@@ -96,5 +150,6 @@ namespace Presentation
         }
 
         static Stack<int> threadIds = new Stack<int>(7);
+        static MethodInfo ExplanationHeaderPrinter = typeof(Program).GetMethod(nameof(PrintExplainationHeader), BindingFlags.NonPublic | BindingFlags.Static);
     }
 }
