@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Presentation
 {
     [Order(12)]
-    public class AsyncWithTaskFactoryStartNew : IRunnable
+    public class TaskFactoryStartNewLongRunning : IRunnable
     {
         public async Task Run()
         {
