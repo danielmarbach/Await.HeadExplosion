@@ -7,22 +7,18 @@ namespace Presentation
     [Order(13)]
     public class ConcurrencyLimit : IRunnable
     {
-        public async Task Run()
+        public Task Run()
         {
-            var tokenSource = new CancellationTokenSource();
-            tokenSource.CancelAfter(TimeSpan.FromSeconds(2));
-            var token = tokenSource.Token;
-            const int maxConcurrency = 5;
-
             var semaphore = new SemaphoreSlim(maxConcurrency, maxConcurrency);
             var pumpTask = Task.Run(async () =>
             {
+                var token = this.TokenThatCancelsAfterTwoSeconds();
                 int workCount = 0;
                 while (!token.IsCancellationRequested)
                 {
                     await semaphore.WaitAsync(token);
 
-                    var runningTask = Work(workCount++);
+                    var runningTask = this.SimulateWorkThatTakesOneSecond(workCount++);
 
                     runningTask.ContinueWith((t, state) =>
                     {
@@ -32,20 +28,17 @@ namespace Presentation
                     .Ignore();
                 }
             });
+            return Task.WhenAll(pumpTask.IgnoreCancellation(), WaitForPendingWork(semaphore));
+        }
 
-            await pumpTask.IgnoreCancellation();
-
+        static async Task WaitForPendingWork(SemaphoreSlim semaphore) 
+        {
             while (semaphore.CurrentCount != maxConcurrency)
             {
                 await Task.Delay(50);
             }
         }
 
-        static async Task Work(int workCount, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Console.WriteLine($"start {workCount}");
-            await Task.Delay(1000, cancellationToken);
-            Console.WriteLine($"done {workCount}");
-        }
+        const int maxConcurrency = 5;
     }
 }
