@@ -125,18 +125,48 @@ class Program
 
         threadIds.Push(currentThreadId);
 
+        var longest = runnables.Values.Max(d => d.Name.Length) + 5;
+        int fullWidth = longest * 2;
+
         var currentColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("|================================================|");
-        Console.WriteLine($"{$"| Thread(s): {string.Join(",", threadIds)}".PadRight(49)}|");
-        Console.WriteLine("|================================================|");
-        Console.WriteLine();
-        foreach (var kvp in runnables)
+        
+        Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
+        Console.WriteLine($"{$"| Thread(s): {string.Join(",", threadIds)}".PadRight(fullWidth)}|");
+        Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
+        Console.WriteLine();       
+
+        var elements = runnables.Values.Count;
+        var half = (elements / 2);
+        for (int i = 0; i < half; i++)
         {
-            Console.WriteLine($" ({PadBoth(kvp.Key.ToString(), 5)}) {kvp.Value.Name}");
+            var left = runnables.ElementAtOrDefault(i);
+            if(left.Equals(default(KeyValuePair<int, RunnerWithExplainer>)))
+            {
+                break;
+            }
+            var right = runnables.ElementAtOrDefault(i+half);
+            if(right.Equals(default(KeyValuePair<int, RunnerWithExplainer>)))
+            {
+                break;
+            }
+
+            if(left.Key == right.Key) 
+            {
+                continue;
+            }
+            var leftString = $" ({PadBoth(left.Key.ToString(), 5)}) {left.Value.Name}";
+            var rightString = $"({PadBoth(right.Key.ToString(), 5)}) {right.Value.Name}";
+            Console.WriteLine($"{leftString.PadRight(longest)}{rightString}");
         }
-        Console.WriteLine($" ({PadBoth((runnables.Count - 1).ToString(), 5)}) Clear");
-        Console.WriteLine($" ({PadBoth((runnables.Count).ToString(), 5)}) Exit");
+
+        if(elements % 2 == 1) 
+        {
+            var last = runnables.Last();
+            var lastString = $"({PadBoth(last.Key.ToString(), 5)}) {last.Value.Name}";
+            Console.WriteLine($"{"".PadRight(longest)}{lastString}");
+        }
+
         Console.ForegroundColor = currentColor;
     }
 
