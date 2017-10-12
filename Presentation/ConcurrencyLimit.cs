@@ -1,11 +1,10 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 [Order(13)]
 class ConcurrencyLimit : IRunnable
 {
-    public Task Run()
+    public async Task Run()
     {
         var semaphore = new SemaphoreSlim(maxConcurrency, maxConcurrency);
         var pumpTask = Task.Run(async () =>
@@ -26,7 +25,10 @@ class ConcurrencyLimit : IRunnable
                 .Ignore();
             }
         });
-        return Task.WhenAll(pumpTask.IgnoreCancellation(), WaitForPendingWork(semaphore));
+        
+        await pumpTask.IgnoreCancellation();
+        
+        await WaitForPendingWork(semaphore);
     }
 
     async Task WaitForPendingWork(SemaphoreSlim semaphore) 
