@@ -2,37 +2,34 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation
+[Order(12)]
+public class TaskFactoryStartNewLongRunning : IRunnable
 {
-    [Order(12)]
-    public class TaskFactoryStartNewLongRunning : IRunnable
+    public async Task Run()
     {
-        public async Task Run()
-        {
-            var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
-            await Task.Factory.StartNew(async() => {
-                this.PrintStart();
+        var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+        await Task.Factory.StartNew(async() => {
+            this.PrintStart();
 
-                while(!tokenSource.IsCancellationRequested) 
-                {
-                    await Task.Delay(2);
-                }
+            while(!tokenSource.IsCancellationRequested) 
+            {
+                await Task.Delay(2);
+            }
 
-                this.PrintEnd();
-            }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default)
-            .Unwrap();
+            this.PrintEnd();
+        }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default)
+        .Unwrap();
 
-            tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
-            await Task.Run(async() => {
-                this.PrintStart();
+        tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+        await Task.Run(async() => {
+            this.PrintStart();
 
-                while(!tokenSource.IsCancellationRequested) 
-                {
-                    await Task.Delay(2);
-                }
+            while(!tokenSource.IsCancellationRequested) 
+            {
+                await Task.Delay(2);
+            }
 
-                this.PrintEnd();
-            });
-        }
+            this.PrintEnd();
+        });
     }
 }

@@ -2,16 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Presentation
+[Order(1)]
+class ParallelForEach : IRunnable
 {
-    [Order(1)]
-    public class ParallelForEach : IRunnable
+    public Task Run()
     {
-        public Task Run()
-        {
-            Parallel.ForEach(Enumerable.Range(5, 10), CpuBound.Compute);
+        Parallel.ForEach(Enumerable.Range(5, 10), CpuBound.Compute);
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

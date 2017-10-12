@@ -3,16 +3,13 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Presentation
+[Order(0)]
+class ParallelFor : IRunnable
 {
-    [Order(0)]
-    public class ParallelFor : IRunnable
+    public Task Run()
     {
-        public Task Run()
-        {
-            Parallel.For(5, 10, CpuBound.Compute);
+        Parallel.For(5, 10, CpuBound.Compute);
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

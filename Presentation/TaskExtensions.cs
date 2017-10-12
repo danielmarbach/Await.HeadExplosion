@@ -1,23 +1,20 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Presentation
+static class TaskExtensions
 {
-    static class TaskExtensions
+    public static void Ignore(this Task task)
     {
-        public static void Ignore(this Task task)
-        {
-        }
+    }
 
-        public static async Task IgnoreCancellation(this Task task)
+    public static async Task IgnoreCancellation(this Task task)
+    {
+        try
         {
-            try
-            {
-                await task.ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-            }
+            await task.ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
         }
     }
 }

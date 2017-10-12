@@ -3,27 +3,24 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation
+[Order(4)]
+class SequentialExecution : IRunnable
 {
-    [Order(4)]
-    public class SequentialExecution : IRunnable
+    public async Task Run()
     {
-        public async Task Run()
+        var sequential = Enumerable.Range(0, 4).Select(async t =>
         {
-            var sequential = Enumerable.Range(0, 4).Select(async t =>
-            {
-                this.PrintStart(t);
+            this.PrintStart(t);
 
-                await Task.Delay(1500);
+            await Task.Delay(1500);
 
-                this.PrintEnd(t);
-                
-            });
+            this.PrintEnd(t);
+            
+        });
 
-            foreach (var task in sequential)
-            {
-                await task;
-            }
+        foreach (var task in sequential)
+        {
+            await task;
         }
     }
 }

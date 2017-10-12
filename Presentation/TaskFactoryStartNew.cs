@@ -2,14 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation
+[Order(3)]
+public class TaskFactoryStartNew : IRunnable
 {
-    [Order(3)]
-    public class TaskFactoryStartNew : IRunnable
+    public Task Run()
     {
-        public Task Run()
-        {
-            return Task.Factory.StartNew(() => CpuBound.Compute(10), CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
-        }
+        return Task.Factory.StartNew(() => CpuBound.Compute(10), CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
     }
 }

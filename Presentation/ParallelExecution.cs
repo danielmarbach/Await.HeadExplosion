@@ -3,23 +3,20 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation
+[Order(6)]
+public class ParallelExecution : IRunnable
 {
-    [Order(6)]
-    public class ParallelExecution : IRunnable
+    public Task Run()
     {
-        public Task Run()
+        var concurrent = Enumerable.Range(0, 4).Select(t => Task.Run(() =>
         {
-            var concurrent = Enumerable.Range(0, 4).Select(t => Task.Run(() =>
-            {
-                this.PrintStart(t);
+            this.PrintStart(t);
 
-                Thread.Sleep(1500);
-                
-                this.PrintEnd(t);
-            }));
+            Thread.Sleep(1500);
+            
+            this.PrintEnd(t);
+        }));
 
-            return Task.WhenAll(concurrent);
-        }
+        return Task.WhenAll(concurrent);
     }
 }

@@ -1,9 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Presentation
+interface IRunnable
 {
-    public interface IRunnable
-    {
-        Task Run();
-    }
+    Task Run();
 }
