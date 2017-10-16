@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 public struct TaskkMethodBuilder<TResult>
 {
     private AsyncTaskMethodBuilder<TResult> _methodBuilder;
-    private int calls;
     static Random random = new Random();
     internal TResult _result;
     internal bool GotResult;

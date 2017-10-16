@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-[Order(16)]
+[Order(17)]
 class CustomAwaiter : IRunnable
 {
     public async Task Run()
