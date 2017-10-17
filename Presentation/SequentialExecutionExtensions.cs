@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 
 static class SequentialExecutionExtensions
@@ -13,9 +14,9 @@ static class SequentialExecutionExtensions
         Console.WriteLine($"done {element} / {Thread.CurrentThread.ManagedThreadId}");
     }
 
-    public static void Explain(this SequentialExecution runnable)
+    public static void Explain(this SequentialExecution runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Lazy nature of enumerable creates tasks when iterating");
-        Console.WriteLine(" # 'Await' means sequentialize here");
+        writer.WriteLine(" - Lazy nature of enumerable creates tasks when iterating");
+        writer.WriteLine(" - 'Await' means sequentialize here");
     }
 }

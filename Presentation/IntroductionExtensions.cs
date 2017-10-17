@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 
 static class IntroductionExtensions 
@@ -13,9 +14,12 @@ static class IntroductionExtensions
         Console.WriteLine($"end {Thread.CurrentThread.ManagedThreadId}");
     }  
 
-    public static void Explain(this Introduction runnable)       
+    public static void Explain(this Introduction runnable, TextWriter writer)       
     {
-        Console.WriteLine(" # Here I will repeat important information that you should not miss.");
-        Console.WriteLine(" # Classical Bullet Points which we love and hate.");
+        writer.WriteLine(@"
+- Each sample is contained in a runnable class
+- Extension methods are used to hide non important details
+- `Thread(s)` view will show the last used thread to render the console also refered to as the `main` thread
+");
     }
 }

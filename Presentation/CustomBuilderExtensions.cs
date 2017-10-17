@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 static class CustomBuilderExtensions
 {
@@ -7,9 +8,9 @@ static class CustomBuilderExtensions
         Console.WriteLine($"Result: {result}");
     }
 
-    public static void Explain( this CustomBuilder runnable)
+    public static void Explain( this CustomBuilder runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Category useless knowledge");
-        Console.WriteLine(" # Make fun of your coworkers");
+        writer.WriteLine(" - Category useless knowledge");
+        writer.WriteLine(" - Make fun of your coworkers");
     }
 }

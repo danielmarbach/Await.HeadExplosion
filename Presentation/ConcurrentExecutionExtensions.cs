@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 
 static class ConcurrentExecutionExtensions
@@ -13,10 +14,10 @@ static class ConcurrentExecutionExtensions
         Console.WriteLine($"done {element} / {Thread.CurrentThread.ManagedThreadId}");
     }
 
-    public static void Explain(this ConcurrentExecution runnable)
+    public static void Explain(this ConcurrentExecution runnable, TextWriter writer)
     {
-        Console.WriteLine(" # 'Task.WhenAll' materializes enumerable");
-        Console.WriteLine(" # Tasks are executed concurrently");
-        Console.WriteLine(" # WhenAll task is done when all done");
+        writer.WriteLine(" - 'Task.WhenAll' materializes enumerable");
+        writer.WriteLine(" - Tasks are executed concurrently");
+        writer.WriteLine(" - WhenAll task is done when all done");
     }    
 }

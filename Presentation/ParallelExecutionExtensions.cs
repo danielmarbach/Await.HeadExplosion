@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 
 static class ParallelExecutionExtensions
@@ -13,9 +14,9 @@ static class ParallelExecutionExtensions
         Console.WriteLine($"done {element} / {Thread.CurrentThread.ManagedThreadId}");
     }
 
-    public static void Explain(this ParallelExecution runnable)
+    public static void Explain(this ParallelExecution runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Nature of Task API allows to combine concurrency and explicit parallelism.");
-        Console.WriteLine(" # Degree of Parallelism = Number of Threads used from worker pool.");
+        writer.WriteLine(" - Nature of Task API allows to combine concurrency and explicit parallelism.");
+        writer.WriteLine(" - Degree of Parallelism = Number of Threads used from worker pool.");
     }
 }

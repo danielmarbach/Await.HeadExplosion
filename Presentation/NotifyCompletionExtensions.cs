@@ -1,6 +1,6 @@
 using System;
-using System;
 using System.Globalization;
+using System.IO;
 
 static class NotifyCompletionExtensions
 {
@@ -10,8 +10,8 @@ static class NotifyCompletionExtensions
         Console.WriteLine(CultureInfo.CurrentCulture);
     }
 
-    public static void Explain(this NotifyCompletion runnable)
+    public static void Explain(this NotifyCompletion runnable, TextWriter writer)
     {
-        Console.WriteLine(" # For advanced scenarios 'ICriticalNotifyCompletion' can be used.");
+        writer.WriteLine(" - For advanced scenarios 'ICriticalNotifyCompletion' can be used.");
     }
 }

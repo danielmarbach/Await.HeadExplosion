@@ -47,11 +47,11 @@ static class ValueTasksExtensions
         Console.WriteLine($"Async path {i}.");
     }
 
-    public static void Explain(this ValueTasks runnable)
+    public static void Explain(this ValueTasks runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Nice for highperf scenarios and only then!");
-        Console.WriteLine(" # Complex to use and easy to get wrong");
-        Console.WriteLine(@" # Stats:
+        writer.WriteLine(" - Nice for highperf scenarios and only then!");
+        writer.WriteLine(" - Complex to use and easy to get wrong");
+        writer.WriteLine(@" - Stats:
  |                   Method | Repeats |        Mean |      Error |       StdDev |      Median | Scaled | ScaledSD |   Gen 0 | Allocated |
  |------------------------- |-------- |------------:|-----------:|-------------:|------------:|-------:|---------:|--------:|----------:|
  |          **ConsumeTask** |    1000 |  9,307.1 ns | 396.345 ns | 1,091.649 ns |  9,501.1 ns |   2.00 |     0.60 | 11.4441 |   72072 B |

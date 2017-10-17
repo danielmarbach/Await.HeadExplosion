@@ -1,9 +1,11 @@
-using System;
+using System.IO;
 
 static class ParallelForEachExtensions
 {
-    public static void Explain(this ParallelForEach runnable)
+    public static void Explain(this ParallelForEach runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Like 'Paralle.For' can be combined with 'Task.Run'");        
+        writer.WriteLine(@"
+- Similar to `Parallel.For` but this time foreach
+");     
     }
 }

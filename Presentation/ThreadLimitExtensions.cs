@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 static class ThreadLimitExtensions 
@@ -95,11 +96,11 @@ static class ThreadLimitExtensions
         Console.WriteLine();
     }
 
-    public static void Explain(this ThreadLimit runnable) 
+    public static void Explain(this ThreadLimit runnable, TextWriter writer) 
     {
-        Console.WriteLine(" # 'TaskScheduler.Current' is floated into async continuations with `Task.Factory.StartNew`");
-        Console.WriteLine(" # 'ConfigureAwait(false)' or 'TaskCreationOptions.HideScheduler' allows to opt-out");
-        Console.WriteLine(" # I would quit the project if you forced me to maintain this code ;)");
-        Console.WriteLine(" # If you think you need a scheduler you are probably doing it wrong ;)");
+        writer.WriteLine(" - 'TaskScheduler.Current' is floated into async continuations with `Task.Factory.StartNew`");
+        writer.WriteLine(" - 'ConfigureAwait(false)' or 'TaskCreationOptions.HideScheduler' allows to opt-out");
+        writer.WriteLine(" - I would quit the project if you forced me to maintain this code ;)");
+        writer.WriteLine(" - If you think you need a scheduler you are probably doing it wrong ;)");
     }       
 }

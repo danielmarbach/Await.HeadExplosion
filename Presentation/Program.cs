@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -11,7 +12,7 @@ class Program
 {
     class RunnerWithExplainer 
     {
-        public RunnerWithExplainer(IRunnable runnable, Action explainer) 
+        public RunnerWithExplainer(IRunnable runnable, Action<TextWriter> explainer) 
         {
             this.runnable = runnable;
             this.explainer = explainer;
@@ -25,13 +26,13 @@ class Program
             return runnable.Run();
         }
 
-        public void Explain() 
+        public void Explain(TextWriter writer = null) 
         {
-            explainer();
+            explainer(writer ?? Console.Out);
         }
 
         IRunnable runnable;
-        Action explainer;
+        Action<TextWriter> explainer;
     }
 
     static async Task Main(string[] args)
@@ -48,6 +49,7 @@ class Program
             select new { Order = order, ActivatedRunnable = activatedRunnable, Explainer = explainer }
         ).ToDictionary(k => k.Order, v => new RunnerWithExplainer(v.ActivatedRunnable, v.Explainer));
 
+        UpdateDescription(runnables);
         PrintRunnables(runnables);
 
         string line;
@@ -70,7 +72,7 @@ class Program
                     var run = runnable.Run();
                     try
                     {
-                        Console.WriteLine($"-- Task state: {run.Status.ToString()}");
+                        Console.WriteLine($"-- Task state: {run.Status}");
                         await run.ConfigureAwait(false);
                     }
                     catch(Exception ex) 
@@ -80,8 +82,8 @@ class Program
                     finally
                     {
                         stopWatch.Stop();
-                        Console.WriteLine($"-- Task state: {run.Status.ToString()}");
-                        Console.WriteLine($"-- Execution time: {stopWatch.Elapsed.ToString()}");
+                        Console.WriteLine($"-- Task state: {run.Status}");
+                        Console.WriteLine($"-- Execution time: {stopWatch.Elapsed}");
 
                         runnable.Explain();
 
@@ -92,7 +94,7 @@ class Program
         }
     }
 
-    static Action CreateExplainer(IRunnable runnable) 
+    static Action<TextWriter> CreateExplainer(IRunnable runnable) 
     {
         var extensionType = Type.GetType($"{runnable.GetType().Name}Extensions", false);
         if(extensionType != null) 
@@ -100,20 +102,24 @@ class Program
             var method = extensionType.GetMethod("Explain", BindingFlags.Public | BindingFlags.Static);
             if(method != null) 
             {
-                var block = Expression.Block(Expression.Call(null, ExplanationHeaderPrinter), Expression.Call(null, method, Expression.Constant(runnable)));
-                return Expression.Lambda<Action>(block).Compile();;
+                var parameter = Expression.Parameter(typeof(TextWriter), "writer");
+                var block = Expression.Block(Expression.Call(null, ExplanationHeaderPrinter), Expression.Call(null, method, Expression.Constant(runnable), parameter));
+                return Expression.Lambda<Action<TextWriter>>(block, parameter).Compile();;
             }
         }
-        return () => { };
+        return writer => { };
     }
 
     static void PrintExplanationHeader() 
     {
-        Console.WriteLine();
-        Console.WriteLine("|================================================|");
-        Console.WriteLine($"| {"Remember".PadRight(47)}|");
-        Console.WriteLine("|================================================|");
-        Console.WriteLine();
+        if (explanationHeaderEnabled)
+        {
+            Console.WriteLine();
+            Console.WriteLine("|================================================|");
+            Console.WriteLine($"| {"Remember".PadRight(47)}|");
+            Console.WriteLine("|================================================|");
+            Console.WriteLine();
+        }
     }
 
     static void PrintRunnables(Dictionary<int, RunnerWithExplainer> runnables)
@@ -141,12 +147,12 @@ class Program
         for (int i = 0; i < half; i++)
         {
             var left = runnables.ElementAtOrDefault(i);
-            if(left.Equals(default(KeyValuePair<int, RunnerWithExplainer>)))
+            if(left.Equals(default))
             {
                 break;
             }
             var right = runnables.ElementAtOrDefault(i+half);
-            if(right.Equals(default(KeyValuePair<int, RunnerWithExplainer>)))
+            if(right.Equals(default))
             {
                 break;
             }
@@ -177,6 +183,27 @@ class Program
         return source.PadLeft(padLeft).PadRight(length);
     }
 
+    static void UpdateDescription(Dictionary<int, RunnerWithExplainer> runnables)
+    {
+        explanationHeaderEnabled = false;
+        try
+        {
+            using (var file = File.CreateText("README.MD"))
+            {
+                foreach (var item in runnables.Values)
+                {
+                    file.WriteLine($"## {item.Name}");
+                    item.Explain(file);
+                }
+            }
+        }
+        finally
+        {
+            explanationHeaderEnabled = true;
+        }
+    }
+
+    static bool explanationHeaderEnabled = true;
     static Stack<int> threadIds = new Stack<int>(7);
     static MethodInfo ExplanationHeaderPrinter = typeof(Program).GetMethod(nameof(PrintExplanationHeader), BindingFlags.NonPublic | BindingFlags.Static);
 }

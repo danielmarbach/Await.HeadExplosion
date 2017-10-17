@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 
 static class TaskFactoryStartNewLongRunningExtensions 
@@ -13,9 +14,9 @@ static class TaskFactoryStartNewLongRunningExtensions
         Console.WriteLine($"done {Thread.CurrentThread.ManagedThreadId} - IsBackground: '{Thread.CurrentThread.IsBackground}' IsThreadPoolThread: '{Thread.CurrentThread.IsThreadPoolThread}'");
     } 
 
-    public static void Explain(this TaskFactoryStartNewLongRunning runnable) 
+    public static void Explain(this TaskFactoryStartNewLongRunning runnable, TextWriter writer) 
     {
-        Console.WriteLine(" # 'LongRunning' flag is a waste in combination with an async body");
-        Console.WriteLine(" # Don't try to be smarter than the TPL ;)");
+        writer.WriteLine(" - 'LongRunning' flag is a waste in combination with an async body");
+        writer.WriteLine(" - Don't try to be smarter than the TPL ;)");
     }               
 }

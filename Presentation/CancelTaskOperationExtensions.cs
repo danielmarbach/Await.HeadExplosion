@@ -1,9 +1,9 @@
-using System;
+using System.IO;
 
 static class CancelTaskOperationExtensions 
 {
-    public static void Explain(this CancelTaskOperation runnable)
+    public static void Explain(this CancelTaskOperation runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Cooperative cancelation means the token has to be observed by the implementor");
+        writer.WriteLine(" - Cooperative cancelation means the token has to be observed by the implementor");
     }   
 }

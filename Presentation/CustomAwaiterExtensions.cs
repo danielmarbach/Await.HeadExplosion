@@ -1,11 +1,11 @@
-using System;
+using System.IO;
 
 static class CustomAwaiterExtensions 
 {
-    public static void Explain(this CustomAwaiter runnable)
+    public static void Explain(this CustomAwaiter runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Anything can be awaited with the `GetAwaiter` (istance|static) convention");
-        Console.WriteLine(" # Presence of the method (even in the library) makes things awaitable");
-        Console.WriteLine(" # i.ex. allow to await Process.Start");
+        writer.WriteLine(" - Anything can be awaited with the `GetAwaiter` (istance|static) convention");
+        writer.WriteLine(" - Presence of the method (even in the library) makes things awaitable");
+        writer.WriteLine(" - i.ex. allow to await Process.Start");
     }
 }

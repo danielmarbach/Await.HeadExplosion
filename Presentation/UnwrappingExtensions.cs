@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 static class UnwrappingExtensions 
 {
@@ -22,9 +23,9 @@ static class UnwrappingExtensions
         Console.WriteLine($"end actual {id}");
     }
 
-    public static void Explain(this Unwrapping runnable)
+    public static void Explain(this Unwrapping runnable, TextWriter writer)
     {
-        Console.WriteLine(" # Async in `Task.Factory.StartNew` returns a proxy task `Task<Task>`");
-        Console.WriteLine(" # Proxy task is completed before the actual task is completed");
+        writer.WriteLine(" - Async in `Task.Factory.StartNew` returns a proxy task `Task<Task>`");
+        writer.WriteLine(" - Proxy task is completed before the actual task is completed");
     }            
 }
