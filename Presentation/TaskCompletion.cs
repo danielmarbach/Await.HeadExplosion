@@ -10,9 +10,9 @@ class TaskCompletion : IRunnable
         var taskCompletionSource = new TaskCompletionSource<bool>();
         var simulator = new Simulator();
         simulator.Fired += (sender, args) => taskCompletionSource.TrySetResult(true);
-        Console.WriteLine($"Start on {Thread.CurrentThread.ManagedThreadId}");
+        this.PrintStart();
         simulator.Start();
         await taskCompletionSource.Task.ConfigureAwait(false);
-        Console.WriteLine($"Continue on {Thread.CurrentThread.ManagedThreadId}");
+        this.PrintEnd();
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using System.Threading;
 
 static class TaskCompletionExtensions
 {
@@ -11,5 +13,15 @@ static class TaskCompletionExtensions
 - Use `TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously)` with .NET 4.6.2 or higher to opt-out from sync completion.
 
 ");
+    }
+
+    public static void PrintStart(this TaskCompletion runnable )
+    {
+        Console.WriteLine($"Start on {Thread.CurrentThread.ManagedThreadId}");
+    }
+
+    public static void PrintEnd(this TaskCompletion runnable )
+    {
+        Console.WriteLine($"Continue on {Thread.CurrentThread.ManagedThreadId}");
     }
 }
