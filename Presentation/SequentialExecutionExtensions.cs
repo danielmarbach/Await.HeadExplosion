@@ -16,7 +16,9 @@ static class SequentialExecutionExtensions
 
     public static void Explain(this SequentialExecution runnable, TextWriter writer)
     {
-        writer.WriteLine(" - Lazy nature of enumerable creates tasks when iterating");
-        writer.WriteLine(" - 'Await' means sequentialize here");
+        writer.WriteLine(@"
+- Lazy nature of enumerable creates tasks when iterating
+- `Await` means sequentialize here
+");
     }
 }

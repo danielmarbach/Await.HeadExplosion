@@ -16,7 +16,11 @@ static class TaskFactoryStartNewLongRunningExtensions
 
     public static void Explain(this TaskFactoryStartNewLongRunning runnable, TextWriter writer) 
     {
-        writer.WriteLine(" - 'LongRunning' flag is a waste in combination with an async body");
-        writer.WriteLine(" - Don't try to be smarter than the TPL ;)");
+                writer.WriteLine(@"
+- `TaskCreationOptions.LongRunning` instruct the TPL to create a background thread (non-pool thread)                
+- First `await` statement will return the background thread, waste is generated
+- Useful only for long-running loops without async body
+- Don't try to be smarter than the TPL ;)
+");
     }               
 }

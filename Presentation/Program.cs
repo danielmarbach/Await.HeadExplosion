@@ -16,10 +16,10 @@ class Program
         {
             this.runnable = runnable;
             this.explainer = explainer;
-            this.Name = runnable.GetType().Name;
+            Name = runnable.GetType().Name;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public Task Run() 
         {
@@ -31,8 +31,8 @@ class Program
             explainer(writer ?? Console.Out);
         }
 
-        IRunnable runnable;
-        Action<TextWriter> explainer;
+        readonly IRunnable runnable;
+        readonly Action<TextWriter> explainer;
     }
 
     static async Task Main(string[] args)

@@ -10,7 +10,9 @@ static class CustomBuilderExtensions
 
     public static void Explain( this CustomBuilder runnable, TextWriter writer)
     {
-        writer.WriteLine(" - Category useless knowledge");
-        writer.WriteLine(" - Make fun of your coworkers");
+        writer.WriteLine(@"
+- Category useless knowledge
+- Make fun of your coworkers
+");
     }
 }

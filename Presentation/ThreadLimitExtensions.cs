@@ -98,9 +98,11 @@ static class ThreadLimitExtensions
 
     public static void Explain(this ThreadLimit runnable, TextWriter writer) 
     {
-        writer.WriteLine(" - 'TaskScheduler.Current' is floated into async continuations with `Task.Factory.StartNew`");
-        writer.WriteLine(" - 'ConfigureAwait(false)' or 'TaskCreationOptions.HideScheduler' allows to opt-out");
-        writer.WriteLine(" - I would quit the project if you forced me to maintain this code ;)");
-        writer.WriteLine(" - If you think you need a scheduler you are probably doing it wrong ;)");
+        writer.WriteLine(@"
+- `TaskScheduler.Current` is floated into async continuations with `Task.Factory.StartNew`
+- `ConfigureAwait(false)` or `TaskCreationOptions.HideScheduler` allows to opt-out
+- I would quit the project if you forced me to maintain this code ;)
+- If you think you need a scheduler you are probably doing it wrong ;)
+");
     }       
 }

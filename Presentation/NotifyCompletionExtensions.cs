@@ -12,6 +12,10 @@ static class NotifyCompletionExtensions
 
     public static void Explain(this NotifyCompletion runnable, TextWriter writer)
     {
-        writer.WriteLine(" - For advanced scenarios 'ICriticalNotifyCompletion' can be used.");
+        writer.WriteLine(@"      
+- `ICriticalNotifyCompletion` helps to implement the awaiter pattern
+- `IsCompleted` and `void GetResult()` or `TResult GetResult()` still have to be added by convention
+- `OnCompleted` has to flow the execution context while `OnUnsafeCompleted` doesn't have to
+");
     }
 }

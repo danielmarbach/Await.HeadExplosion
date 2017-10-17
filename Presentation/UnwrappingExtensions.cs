@@ -25,7 +25,10 @@ static class UnwrappingExtensions
 
     public static void Explain(this Unwrapping runnable, TextWriter writer)
     {
-        writer.WriteLine(" - Async in `Task.Factory.StartNew` returns a proxy task `Task<Task>`");
-        writer.WriteLine(" - Proxy task is completed before the actual task is completed");
+        writer.WriteLine(@"
+- Async in `Task.Factory.StartNew` returns a proxy task `Task<Task>`
+- Proxy task is completed before the actual task is completed
+- Can lead to interesting bugs (seen in the wild many times)
+");
     }            
 }

@@ -32,6 +32,7 @@ public static class CultureAwaitExtensions
             task = Task.Delay(2000);
         }
 
+        // magic property
         public bool IsCompleted => task.IsCompleted;
 
         public void OnCompleted(Action continuation)
@@ -44,6 +45,7 @@ public static class CultureAwaitExtensions
             task.GetAwaiter().UnsafeOnCompleted(continuation);
         }
 
+        // magic property
         public void GetResult()
         {
             CultureInfo.CurrentCulture = new CultureInfo("en-us");

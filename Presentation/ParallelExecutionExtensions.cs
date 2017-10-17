@@ -16,7 +16,9 @@ static class ParallelExecutionExtensions
 
     public static void Explain(this ParallelExecution runnable, TextWriter writer)
     {
-        writer.WriteLine(" - Nature of Task API allows to combine concurrency and explicit parallelism.");
-        writer.WriteLine(" - Degree of Parallelism = Number of Threads used from worker pool.");
+        writer.WriteLine(@"
+- Nature of Task API allows to combine concurrency and explicit parallelism.
+- Degree of Parallelism = Number of Threads used from worker pool.
+");
     }
 }
