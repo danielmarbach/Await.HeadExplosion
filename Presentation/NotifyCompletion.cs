@@ -45,7 +45,7 @@ public static class CultureAwaitExtensions
             task.GetAwaiter().UnsafeOnCompleted(continuation);
         }
 
-        // magic property
+        // magic Method
         public void GetResult()
         {
             CultureInfo.CurrentCulture = new CultureInfo("en-us");

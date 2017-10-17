@@ -31,18 +31,25 @@
 - Is the shoot yourself in the foot API if you don't know what you are doing (more examples later)
 
 ## SequentialExecution
- - Lazy nature of enumerable creates tasks when iterating
- - 'Await' means sequentialize here
+
+- Lazy nature of enumerable creates tasks when iterating
+- `Await` means sequentialize here
+
 ## ConcurrentExecution
  - 'Task.WhenAll' materializes enumerable
  - Tasks are executed concurrently
  - WhenAll task is done when all done
 ## ParallelExecution
- - Nature of Task API allows to combine concurrency and explicit parallelism.
- - Degree of Parallelism = Number of Threads used from worker pool.
+
+- Nature of Task API allows to combine concurrency and explicit parallelism.
+- Degree of Parallelism = Number of Threads used from worker pool.
+
 ## Unwrapping
- - Async in `Task.Factory.StartNew` returns a proxy task `Task<Task>`
- - Proxy task is completed before the actual task is completed
+
+- Async in `Task.Factory.StartNew` returns a proxy task `Task<Task>`
+- Proxy task is completed before the actual task is completed
+- Can lead to interesting bugs (seen in the wild many times)
+
 ## CancelTask
  - Passing a token to a task does only impact the final state of the task
 ## CancelTaskOperation
@@ -51,41 +58,56 @@
  - It is up to the implementor to decide whether exceptions should be observed by the caller
  - For graceful shutdown scenarios the root task should not transition into 'canceled'
 ## ShortcutStatemachine
- - For highperf scenario `async` keyword can be omitted
- - Apply carefully and only after measuring
- - For most scenarios apply the keyword since it prevents mistakes
- - NET Core 2.0:
+
+- For highperf scenario `async` keyword can be omitted
+- Apply carefully and only after measuring
+- For most scenarios apply the keyword since it prevents mistakes
+- NET Core 2.0:
+
  |  Method |     Mean |     Error |    StdDev | Scaled | Allocated |
  |-------- |---------:|----------:|----------:|-------:|----------:|
  |  Return | 15.61 ms | 0.0150 ms | 0.0140 ms |   1.00 |     528 B |
  |  Simple | 15.61 ms | 0.0184 ms | 0.0172 ms |   1.00 |     744 B |
- 
- - NET Core 2.1 preview:
+- NET Core 2.1 preview:
+
  |  Method |     Mean |     Error |    StdDev | Scaled | Allocated |
  |-------- |---------:|----------:|----------:|-------:|----------:|
  |  Return | 15.61 ms | 0.0150 ms | 0.0140 ms |   1.00 |     520 B |
- |  Simple | 15.61 ms | 0.0184 ms | 0.0172 ms |   1.00 |     736 B |
- 
+ |  Simple | 15.61 ms | 0.0184 ms | 0.0172 ms |   1.00 |     736 B | 
+
+
 ## TaskFactoryStartNewLongRunning
- - 'LongRunning' flag is a waste in combination with an async body
- - Don't try to be smarter than the TPL ;)
+
+- `TaskCreationOptions.LongRunning` instruct the TPL to create a background thread (non-pool thread)                
+- First `await` statement will return the background thread, waste is generated
+- Useful only for long-running loops without async body
+- Don't try to be smarter than the TPL ;)
+
 ## ConcurrencyLimit
  - 'SemaphoreSlim' is a handy structure to limit concurrency
  - 'SemaphoreSlim' does not preserve order
  - 'SemaphoreSlim' can be used as async lock structure if required (caveat 100 times slower than lock)
 ## ThreadLimit
- - 'TaskScheduler.Current' is floated into async continuations with `Task.Factory.StartNew`
- - 'ConfigureAwait(false)' or 'TaskCreationOptions.HideScheduler' allows to opt-out
- - I would quit the project if you forced me to maintain this code ;)
- - If you think you need a scheduler you are probably doing it wrong ;)
+
+- `TaskScheduler.Current` is floated into async continuations with `Task.Factory.StartNew`
+- `ConfigureAwait(false)` or `TaskCreationOptions.HideScheduler` allows to opt-out
+- I would quit the project if you forced me to maintain this code ;)
+- If you think you need a scheduler you are probably doing it wrong ;)
+
 ## TaskCompletion
- - 'TaskCompletionSource<TResult>' is a handy tool to achieve complex interop and custom async scenarios
- - Attention: Awaiter completes on thread that called 'SetResult' or 'TrySetResult'
- - Use TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously) with .NET 4.6.2 or higher to opt-out from sync completion.
+
+- `TaskCompletionSource<TResult>` is a handy tool to achieve complex interop and custom async scenarios
+- It represents a custom task that can be controled and transitioned into the state you like
+- Attention: Awaiter completes on thread that called `SetResult` or `TrySetResult`
+- Use `TaskCompletionSource<TResult>(TaskCreationOptions.RunContinuationsAsynchronously)` with .NET 4.6.2 or higher to opt-out from sync completion.
+
+
 ## ValueTasks
- - Nice for highperf scenarios and only then!
- - Complex to use and easy to get wrong
- - Stats:
+
+- Nice for highperf scenarios and only then!
+- Complex to use and easy to get wrong
+- Stats:
+
  |                   Method | Repeats |        Mean |      Error |       StdDev |      Median | Scaled | ScaledSD |   Gen 0 | Allocated |
  |------------------------- |-------- |------------:|-----------:|-------------:|------------:|-------:|---------:|--------:|----------:|
  |          **ConsumeTask** |    1000 |  9,307.1 ns | 396.345 ns | 1,091.649 ns |  9,501.1 ns |   2.00 |     0.60 | 11.4441 |   72072 B |
@@ -93,13 +115,22 @@
  | ConsumeValueTaskProperly |    1000 |  5,075.2 ns | 543.450 ns | 1,602.374 ns |  4,455.4 ns |   1.00 |     0.00 |       - |       0 B |
  |    ConsumeValueTaskCrazy |    1000 |  4,140.6 ns | 211.741 ns |   604.109 ns |  4,201.2 ns |   0.89 |     0.28 |       - |       0 B |        
         
+
 ## CustomAwaiter
- - Anything can be awaited with the `GetAwaiter` (istance|static) convention
- - Presence of the method (even in the library) makes things awaitable
- - i.ex. allow to await Process.Start
+
+- Anything can be awaited with the `GetAwaiter` (istance|static) convention
+- Presence of the method (even in the library) makes things awaitable
+- i.ex. allow to `await Process.Start`
+
 ## NotifyCompletion
- - For advanced scenarios 'ICriticalNotifyCompletion' can be used.
+      
+- `ICriticalNotifyCompletion` helps to implement the awaiter pattern
+- `IsCompleted` and `void GetResult()` or `TResult GetResult()` still have to be added by convention
+- `OnCompleted` has to flow the execution context while `OnUnsafeCompleted` doesn't have to
+
 ## CustomBuilder
- - Category useless knowledge
- - Make fun of your coworkers
+
+- Category useless knowledge
+- Make fun of your coworkers
+
 ## MakeFunOfSwissPeople
