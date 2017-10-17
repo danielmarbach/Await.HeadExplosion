@@ -12,4 +12,10 @@ static class SequentialExecutionExtensions
     {
         Console.WriteLine($"done {element} / {Thread.CurrentThread.ManagedThreadId}");
     }
+
+    public static void Explain(this SequentialExecution runnable)
+    {
+        Console.WriteLine(" # Lazy nature of enumerable creates tasks when iterating");
+        Console.WriteLine(" # 'Await' means sequentialize here");
+    }
 }

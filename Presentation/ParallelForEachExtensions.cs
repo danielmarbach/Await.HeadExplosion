@@ -1,4 +1,5 @@
 using System;
+
 static class ParallelForEachExtensions
 {
     public static void Explain(this ParallelForEach runnable)

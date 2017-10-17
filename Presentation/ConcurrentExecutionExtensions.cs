@@ -12,4 +12,11 @@ static class ConcurrentExecutionExtensions
     {
         Console.WriteLine($"done {element} / {Thread.CurrentThread.ManagedThreadId}");
     }
+
+    public static void Explain(this ConcurrentExecution runnable)
+    {
+        Console.WriteLine(" # 'Task.WhenAll' materializes enumerable");
+        Console.WriteLine(" # Tasks are executed concurrently");
+        Console.WriteLine(" # WhenAll task is done when all done");
+    }    
 }
