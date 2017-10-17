@@ -25,4 +25,11 @@ static class ConcurrencyLimitExtensions
         var token = tokenSource.Token;
         return token;
     }
+
+    public static void Explain(this ConcurrencyLimit runnable)
+    {
+        Console.WriteLine(" # 'SemaphoreSlim' is a handy structure to limit concurrency");
+        Console.WriteLine(" # 'SemaphoreSlim' does not preserve order");
+        Console.WriteLine(" # 'SemaphoreSlim' can be used as async lock structure if required (caveat 100 times slower than lock)");
+    }
 }

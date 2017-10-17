@@ -8,7 +8,7 @@ class ValueTasks : IRunnable
 {
     public Task Run()
     {
-        return this.LoopTenTimes(async i =>
+        return this.LoopTenTimesAndSumResult(async i =>
         {
             ValueTask<int> valueTask = Get("Foo");
 

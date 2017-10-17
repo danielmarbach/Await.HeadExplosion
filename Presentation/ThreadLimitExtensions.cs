@@ -94,4 +94,12 @@ static class ThreadLimitExtensions
         await WaitForPendingWork();
         Console.WriteLine();
     }
+
+    public static void Explain(this ThreadLimit runnable) 
+    {
+        Console.WriteLine(" # 'TaskScheduler.Current' is floated into async continuations with `Task.Factory.StartNew`");
+        Console.WriteLine(" # 'ConfigureAwait(false)' or 'TaskCreationOptions.HideScheduler' allows to opt-out");
+        Console.WriteLine(" # I would quit the project if you forced me to maintain this code ;)");
+        Console.WriteLine(" # If you think you need a scheduler you are probably doing it wrong ;)");
+    }       
 }
