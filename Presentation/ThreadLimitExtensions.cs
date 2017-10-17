@@ -93,7 +93,8 @@ static class ThreadLimitExtensions
         }
         await pumpTask.IgnoreCancellation();
         await WaitForPendingWork();
-        Console.WriteLine();
+        Console.WriteLine("...");
+        Console.ReadLine();
     }
 
     public static void Explain(this ThreadLimit runnable, TextWriter writer) 
