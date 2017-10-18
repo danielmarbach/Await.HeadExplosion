@@ -52,6 +52,9 @@ public struct Taskk<TResult>
 
     public TaskkAwaiter<TResult> GetAwaiter() => new TaskkAwaiter<TResult>(this);
 
+    public ConfiguredTaskkAwaiter<TResult> ConfigureAwait(bool continueOnCapturedContext) =>
+            new ConfiguredTaskkAwaiter<TResult>(this, continueOnCapturedContext: continueOnCapturedContext);
+
     [EditorBrowsable(EditorBrowsableState.Never)] // intended only for compiler consumption
     public static TaskkMethodBuilder<TResult> CreateAsyncMethodBuilder() => TaskkMethodBuilder<TResult>.Create();
 }
