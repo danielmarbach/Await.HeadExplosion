@@ -150,3 +150,14 @@
 - Make fun of your coworkers
 
 ## MakeFunOfSwissPeople
+## ConfigureAwait
+
+- `ConfigureAwait` controls whether context capturing is enabled
+- Context capturing as a simplification can be understood as restoring the TaskScheduler that was visible before the `await`
+- Context capturing affects the continuation of an asynchronous method
+
+```
+await Method().ConfigureAwait(true|false);
+await Continuation(); // <-- affected by line above
+```
+
