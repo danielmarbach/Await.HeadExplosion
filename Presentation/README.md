@@ -60,12 +60,19 @@
 - Can lead to interesting bugs (seen in the wild many times)
 
 ## CancelTask
- - Passing a token to a task does only impact the final state of the task
+
+- Passing a token to a task does only impact the final state of the task
+- Cancellation is a cooperative effort
+
 ## CancelTaskOperation
- - Cooperative cancelation means the token has to be observed by the implementor
+
+- Cooperative cancelation means the token has to be observed by the implementor
+
 ## CancelTaskOperationGraceful
- - It is up to the implementor to decide whether exceptions should be observed by the caller
- - For graceful shutdown scenarios the root task should not transition into 'canceled'
+
+- It is up to the implementor to decide whether exceptions should be observed by the caller
+- For graceful shutdown scenarios the root task should not transition into 'canceled'
+
 ## ShortcutStatemachine
 
 - For highperf scenario `async` keyword can be omitted
@@ -87,8 +94,8 @@
 
 ## TaskFactoryStartNewLongRunning
 
-- `TaskCreationOptions.LongRunning` instruct the TPL to create a background thread (non-pool thread)                
-- First `await` statement will return the background thread, waste is generated
+- `TaskCreationOptions.LongRunning` instruct the TPL to create a background thread (non-pooled thread)                
+- First `await` statement will return the background (non-pooled) thread, waste is generated
 - Useful only for long-running loops without async body
 - Don't try to be smarter than the TPL ;)
 
