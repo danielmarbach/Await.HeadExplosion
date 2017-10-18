@@ -5,7 +5,11 @@ class ParallelFor : IRunnable
 {
     public Task Run()
     {
-        Parallel.For(5, 10, CpuBound.Compute);
+        var options = new ParallelOptions()
+        {
+            MaxDegreeOfParallelism = 4,
+        };
+        Parallel.For(5, 10, options, CpuBound.Compute);
 
         return Task.CompletedTask;
     }
