@@ -19,6 +19,9 @@ static class ParallelExecutionExtensions
         writer.WriteLine(@"
 - Nature of Task API allows to combine concurrency and explicit parallelism.
 - Degree of Parallelism = Number of Threads used from worker pool.
+- Async all the way: Try to avoid blocking code in async body if you can
+- In some scenarios it is OK to call blocking IO bound code in async body
+- Top level caller can always offload if required
 ");
     }
 }

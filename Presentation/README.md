@@ -32,17 +32,26 @@
 
 ## SequentialExecution
 
+- `Task.Delay` represents a true asynchronous operation, no offloading needed
+- Protip: `Task.Delay` uses a timer and is subjected to timer resolution on the system
 - Lazy nature of enumerable creates tasks when iterating
 - `Await` means sequentialize here
 
 ## ConcurrentExecution
- - 'Task.WhenAll' materializes enumerable
- - Tasks are executed concurrently
- - WhenAll task is done when all done
+
+- `Task.WhenAll` materializes enumerable
+- Tasks are executed concurrently
+- `Task.WhenAll` task is done when all done
+- When one task threw an exception the task is faulted and the exception rethrown
+- When interested in the outcome of each task you have to loop over the tasks
+
 ## ParallelExecution
 
 - Nature of Task API allows to combine concurrency and explicit parallelism.
 - Degree of Parallelism = Number of Threads used from worker pool.
+- Async all the way: Try to avoid blocking code in async body if you can
+- In some scenarios it is OK to call blocking IO bound code in async body
+- Top level caller can always offload if required
 
 ## Unwrapping
 
