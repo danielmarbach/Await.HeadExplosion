@@ -12,9 +12,12 @@ class CustomBuilder : IRunnable
     static async Taskk<int> Calculate()
     {
         int value = 0;
-        value += await GetValue().ConfigureAwait(false);
-        value += await GetValue().ConfigureAwait(false);
-        value += await GetValue().ConfigureAwait(false);
+        value += await GetValue()
+            .ConfigureAwait(false);
+        value += await GetValue()
+            .ConfigureAwait(false);
+        value += await GetValue()
+            .ConfigureAwait(false);
         return value;
     }
 
