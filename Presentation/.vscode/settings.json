@@ -1,3 +1,9 @@
 {
-    "editor.codeLens": false
+    "editor.codeLens": false,
+    "workbench.colorTheme": "Default Dark+",
+    "zenMode.hideActivityBar": true,
+    "zenMode.hideStatusBar": true,
+    "zenMode.hideTabs": true,
+    "window.zoomLevel": 3,
+    "workbench.editor.showTabs": false
 }
