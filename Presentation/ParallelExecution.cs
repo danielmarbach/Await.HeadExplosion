@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(6)]
+[Order(9)]
 public class ParallelExecution : IRunnable
 {
     public Task Run()

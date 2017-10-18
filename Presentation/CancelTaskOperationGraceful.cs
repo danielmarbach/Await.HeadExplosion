@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(10)]
+[Order(13)]
 class CancelTaskOperationGraceful : IRunnable
 {
     public Task Run()

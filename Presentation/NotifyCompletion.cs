@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-[Order(18)]
+[Order(21)]
 class NotifyCompletion : IRunnable
 {
     public async Task Run()

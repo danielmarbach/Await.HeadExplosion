@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(14)]
+[Order(17)]
 class ThreadLimit : IRunnable
 {
     public async Task Run()

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(4)]
+[Order(7)]
 class SequentialExecution : IRunnable
 {
     public async Task Run()

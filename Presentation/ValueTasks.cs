@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(16)]
+[Order(19)]
 class ValueTasks : IRunnable
 {
     public Task Run()

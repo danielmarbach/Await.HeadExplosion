@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(8)]
+[Order(11)]
 class CancelTask : IRunnable
 {
     public Task Run()

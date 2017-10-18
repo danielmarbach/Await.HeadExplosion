@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(9)]
+[Order(12)]
 class CancelTaskOperation : IRunnable
 {
     public Task Run()

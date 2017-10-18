@@ -3,7 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-[Order(21)]
+[Order(6)]
 class ConfigureAwait : IRunnable
 {
     public Task Run()

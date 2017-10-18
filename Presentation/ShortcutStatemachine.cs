@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(11)]
+[Order(14)]
 public class ShortcutStatemachine : IRunnable
 {
     public async Task Run()

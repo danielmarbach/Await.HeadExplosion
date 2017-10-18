@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-[Order(20)]
+[Order(23)]
 class MakeFunOfSwissPeople : IRunnable
 {
     public Task Run()

@@ -30,6 +30,29 @@
 - Uses `TaskScheduler.Current` by default if you don't specify one which can be a scheduler that wraps the SynchronizationContext
 - Is the shoot yourself in the foot API if you don't know what you are doing (more examples later)
 
+## SimpleAsync
+
+- Every `await` statement is a chance for the calling thread to do something else
+- Much more efficient due to less thread usage
+- Can achieve higher saturation of ressources available
+
+## AsyncAllTheWay
+
+- It is OK to call sync code from async context
+- It defeats the purpose of async when async is called from sync code
+- It is dangerous to call async code, it can lead to deadlocks.
+
+## ConfigureAwait
+
+- `ConfigureAwait` controls whether context capturing is enabled
+- Context capturing as a simplification can be understood as restoring the TaskScheduler that was visible before the `await`
+- Context capturing affects the continuation of an asynchronous method
+
+```
+await Method().ConfigureAwait(true|false);
+await Continuation(); // <-- affected by line above
+```
+
 ## SequentialExecution
 
 - `Task.Delay` represents a true asynchronous operation, no offloading needed
@@ -150,14 +173,3 @@
 - Make fun of your coworkers
 
 ## MakeFunOfSwissPeople
-## ConfigureAwait
-
-- `ConfigureAwait` controls whether context capturing is enabled
-- Context capturing as a simplification can be understood as restoring the TaskScheduler that was visible before the `await`
-- Context capturing affects the continuation of an asynchronous method
-
-```
-await Method().ConfigureAwait(true|false);
-await Continuation(); // <-- affected by line above
-```
-
