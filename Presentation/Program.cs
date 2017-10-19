@@ -68,20 +68,28 @@ class Program
                     var currentColor = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Gray;
 
+                    bool expectionCaught = false;
                     var stopWatch = Stopwatch.StartNew();
                     var run = runnable.Run();
                     try
                     {
                         Console.WriteLine($"-- Task state: {run.Status}");
+                        Console.WriteLine();
                         await run.ConfigureAwait(false);
                     }
                     catch(Exception ex) 
                     {
+                        expectionCaught = true;
+                        Console.WriteLine();
                         Console.WriteLine($"-- Caught: {ex.GetType().Name}('{ex.Message}')");
                     }
                     finally
                     {
                         stopWatch.Stop();
+                        if(!expectionCaught)
+                        {
+                            Console.WriteLine();
+                        }
                         Console.WriteLine($"-- Task state: {run.Status}");
                         Console.WriteLine($"-- Execution time: {stopWatch.Elapsed}");
 
