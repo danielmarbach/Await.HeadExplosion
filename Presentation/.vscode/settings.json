@@ -4,6 +4,6 @@
     "zenMode.hideActivityBar": true,
     "zenMode.hideStatusBar": true,
     "zenMode.hideTabs": true,
-    "window.zoomLevel": 3,
+    "window.zoomLevel": 2,
     "workbench.editor.showTabs": false,
 }

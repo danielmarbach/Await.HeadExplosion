@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 class Program
 {
-    class RunnerWithExplainer 
+    class RunnerWithExplainer
     {
-        public RunnerWithExplainer(IRunnable runnable, Action<TextWriter> explainer) 
+        public RunnerWithExplainer(IRunnable runnable, Action<TextWriter> explainer)
         {
             this.runnable = runnable;
             this.explainer = explainer;
@@ -21,12 +21,12 @@ class Program
 
         public string Name { get; }
 
-        public Task Run() 
+        public Task Run()
         {
             return runnable.Run();
         }
 
-        public void Explain(TextWriter writer = null) 
+        public void Explain(TextWriter writer = null)
         {
             explainer(writer ?? Console.Out);
         }
@@ -42,7 +42,7 @@ class Program
         var runnables = (
             from type in typeof(Program).Assembly.GetTypes()
             where typeof(IRunnable).IsAssignableFrom(type) && type != typeof(IRunnable)
-            let activatedRunnable = (IRunnable) Activator.CreateInstance(type)
+            let activatedRunnable = (IRunnable)Activator.CreateInstance(type)
             let order = type.GetCustomAttribute<OrderAttribute>().Order
             let explainer = CreateExplainer(activatedRunnable)
             orderby order
@@ -61,7 +61,8 @@ class Program
                 PrintRunnables(runnables);
             }
 
-            if(int.TryParse(line, out var itemNumber)) {
+            if (int.TryParse(line, out var itemNumber))
+            {
                 if (runnables.TryGetValue(itemNumber, out var runnable))
                 {
                     Console.Clear();
@@ -77,7 +78,7 @@ class Program
                         Console.WriteLine();
                         await run.ConfigureAwait(false);
                     }
-                    catch(Exception ex) 
+                    catch (Exception ex)
                     {
                         expectionCaught = true;
                         Console.WriteLine();
@@ -86,7 +87,7 @@ class Program
                     finally
                     {
                         stopWatch.Stop();
-                        if(!expectionCaught)
+                        if (!expectionCaught)
                         {
                             Console.WriteLine();
                         }
@@ -102,23 +103,23 @@ class Program
         }
     }
 
-    static Action<TextWriter> CreateExplainer(IRunnable runnable) 
+    static Action<TextWriter> CreateExplainer(IRunnable runnable)
     {
         var extensionType = Type.GetType($"{runnable.GetType().Name}Extensions", false);
-        if(extensionType != null) 
+        if (extensionType != null)
         {
             var method = extensionType.GetMethod("Explain", BindingFlags.Public | BindingFlags.Static);
-            if(method != null) 
+            if (method != null)
             {
                 var parameter = Expression.Parameter(typeof(TextWriter), "writer");
                 var block = Expression.Block(Expression.Call(null, ExplanationHeaderPrinter), Expression.Call(null, method, Expression.Constant(runnable), parameter));
-                return Expression.Lambda<Action<TextWriter>>(block, parameter).Compile();;
+                return Expression.Lambda<Action<TextWriter>>(block, parameter).Compile(); ;
             }
         }
         return writer => { };
     }
 
-    static void PrintExplanationHeader() 
+    static void PrintExplanationHeader()
     {
         if (explanationHeaderEnabled)
         {
@@ -133,7 +134,8 @@ class Program
     static void PrintRunnables(Dictionary<int, RunnerWithExplainer> runnables)
     {
         var currentThreadId = Thread.CurrentThread.ManagedThreadId;
-        if(threadIds.Count > 4) {
+        if (threadIds.Count > 4)
+        {
             threadIds.Clear();
         }
 
@@ -144,28 +146,28 @@ class Program
 
         var currentColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Green;
-        
+
         Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
         Console.WriteLine($"{$"| Thread(s): {string.Join(",", threadIds)}".PadRight(fullWidth)}|");
         Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
-        Console.WriteLine();       
+        Console.WriteLine();
 
         var elements = runnables.Values.Count;
         var half = (elements / 2);
         for (int i = 0; i < half; i++)
         {
             var left = runnables.ElementAtOrDefault(i);
-            if(left.Equals(default))
+            if (left.Equals(default))
             {
                 break;
             }
-            var right = runnables.ElementAtOrDefault(i+half);
-            if(right.Equals(default))
+            var right = runnables.ElementAtOrDefault(i + half);
+            if (right.Equals(default))
             {
                 break;
             }
 
-            if(left.Key == right.Key) 
+            if (left.Key == right.Key)
             {
                 continue;
             }
@@ -174,20 +176,25 @@ class Program
             Console.WriteLine($"{leftString.PadRight(longest)}{rightString}");
         }
 
-        if(elements % 2 == 1) 
+        if (elements % 2 == 1)
         {
             var last = runnables.Last();
             var lastString = $"({PadBoth(last.Key.ToString(), 5)}) {last.Value.Name}";
             Console.WriteLine($"{"".PadRight(longest)}{lastString}");
         }
 
+        Console.WriteLine();
+        Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
+        Console.WriteLine($"{$"| github.com/danielmarbach/Await.HeadExplosion (*)".PadRight(fullWidth)}|");
+        Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
+        Console.WriteLine(" (*) don't forget to star the repo ;)");
         Console.ForegroundColor = currentColor;
     }
 
     static string PadBoth(string source, int length)
     {
         int spaces = length - source.Length;
-        int padLeft = spaces/2 + source.Length;
+        int padLeft = spaces / 2 + source.Length;
         return source.PadLeft(padLeft).PadRight(length);
     }
 
