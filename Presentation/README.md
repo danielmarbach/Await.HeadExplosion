@@ -123,9 +123,19 @@ await Continuation(); // <-- affected by line above
 - Don't try to be smarter than the TPL ;)
 
 ## ConcurrencyLimit
- - 'SemaphoreSlim' is a handy structure to limit concurrency
- - 'SemaphoreSlim' does not preserve order
- - 'SemaphoreSlim' can be used as async lock structure if required (caveat 100 times slower than lock)
+
+- `SemaphoreSlim` is a handy structure to limit concurrency
+- `SemaphoreSlim` does not preserve order
+- `SemaphoreSlim` can be used as async lock structure if required (caveat at least 10 times slower than lock)
+
+ |                   Method | Overhead |
+ |------------------------- |---------:|
+ |          **lock**        |  20 ns   | 
+ |       SemaphoreSlim      |  200 ns  |
+ |         Semaphore        |  1000 ns |
+
+http://www.albahari.com/threading/part2.aspx
+
 ## ThreadLimit
 
 - `TaskScheduler.Current` is floated into async continuations with `Task.Factory.StartNew`
@@ -153,7 +163,8 @@ await Continuation(); // <-- affected by line above
  |    ConsumeValueTaskWrong |    1000 | 11,073.7 ns | 468.996 ns | 1,382.844 ns | 10,329.0 ns |   2.38 |     0.73 |       - |       0 B |
  | ConsumeValueTaskProperly |    1000 |  5,075.2 ns | 543.450 ns | 1,602.374 ns |  4,455.4 ns |   1.00 |     0.00 |       - |       0 B |
  |    ConsumeValueTaskCrazy |    1000 |  4,140.6 ns | 211.741 ns |   604.109 ns |  4,201.2 ns |   0.89 |     0.28 |       - |       0 B |        
-        
+
+https://github.com/adamsitnik/StateOfTheDotNetPerformance        
 
 ## CustomAwaiter
 

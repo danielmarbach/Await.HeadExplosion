@@ -29,8 +29,18 @@ static class ConcurrencyLimitExtensions
 
     public static void Explain(this ConcurrencyLimit runnable, TextWriter writer)
     {
-        writer.WriteLine(" - 'SemaphoreSlim' is a handy structure to limit concurrency");
-        writer.WriteLine(" - 'SemaphoreSlim' does not preserve order");
-        writer.WriteLine(" - 'SemaphoreSlim' can be used as async lock structure if required (caveat 100 times slower than lock)");
+        writer.WriteLine(@"
+- `SemaphoreSlim` is a handy structure to limit concurrency
+- `SemaphoreSlim` does not preserve order
+- `SemaphoreSlim` can be used as async lock structure if required (caveat at least 10 times slower than lock)
+
+ |                   Method | Overhead |
+ |------------------------- |---------:|
+ |          **lock**        |  20 ns   | 
+ |       SemaphoreSlim      |  200 ns  |
+ |         Semaphore        |  1000 ns |
+
+http://www.albahari.com/threading/part2.aspx
+");
     }
 }
