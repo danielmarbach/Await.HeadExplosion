@@ -6,6 +6,7 @@ static class ParallelForEachExtensions
     {
         writer.WriteLine(@"
 - Similar to `Parallel.For` but this time foreach
+- Why is this behaving differently in comparison to `Parallel.For`?
 ");     
     }
 }

@@ -21,7 +21,7 @@ static class AsyncAllTheWayExtensions
         writer.WriteLine(@"
 - It is OK to call sync code from async context
 - It defeats the purpose of async when async is called from sync code
-- It is dangerous to call async code, it can lead to deadlocks.
+- It is dangerous to call async code from sync code, it can lead to deadlocks.
 ");
     }
 }
