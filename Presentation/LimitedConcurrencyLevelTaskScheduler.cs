@@ -48,6 +48,7 @@ class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
             // Note that the current thread is now processing work items. 
             // This is necessary to enable inlining of tasks into this thread.
             _currentThreadIsProcessingItems = true;
+            Console.WriteLine($"°°°° CurrenttThread of scheduler is {Thread.CurrentThread.ManagedThreadId} °°°°");
             try
             {
                 // Process all available items in the queue. 
