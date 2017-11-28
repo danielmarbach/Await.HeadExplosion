@@ -67,7 +67,7 @@ class Program
                 {
                     Console.Clear();
                     var currentColor = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
 
                     bool expectionCaught = false;
                     var stopWatch = Stopwatch.StartNew();
@@ -123,6 +123,7 @@ class Program
     {
         if (explanationHeaderEnabled)
         {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine();
             Console.WriteLine("|================================================|");
             Console.WriteLine($"| {"Remember".PadRight(47)}|");
