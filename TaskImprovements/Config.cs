@@ -11,6 +11,6 @@ public class Config : ManualConfig
     {
         Add(MarkdownExporter.GitHub);
         Add(new MemoryDiagnoser());
-        Add(Job.ShortRun.With(CsProjCoreToolchain.From(new NetCoreAppSettings("netcoreapp2.1", "2.1.0-preview1-25719-04"))));
+        Add(Job.ShortRun.With(CsProjCoreToolchain.From(new NetCoreAppSettings("netcoreapp2.1", "2.1.0-preview3-26327-02", "2.1-preview3"))));
     }
 }
