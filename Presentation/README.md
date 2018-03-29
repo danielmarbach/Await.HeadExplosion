@@ -119,6 +119,18 @@ await Continuation(); // <-- affected by line above
  | Actions |  1.939 ms | 0.4590 ms | 0.0259 ms |   0.12 |     350 B |
 
 
+## StackTracesOhMy
+
+- With .NET Core 2.1 finally readable stack traces
+```
+   at StackTracesOhMy.Level6() in C:\p\Await.HeadExplosion\Presentation\StackTracesOhMy.cs:line 20
+   ...
+   at StackTracesOhMyExtensions.Level2to6() in C:\p\Await.HeadExplosion\Presentation\StackTracesOhMyExtensions.cs:line 21
+   at StackTracesOhMy.Level1() in C:\p\Await.HeadExplosion\Presentation\StackTracesOhMy.cs:line 14
+   at StackTracesOhMy.Run() in C:\p\Await.HeadExplosion\Presentation\StackTracesOhMy.cs:line 9
+   at StackTracesOhMyExtensions.PrintStackTrace() in C:\p\Await.HeadExplosion\Presentation\StackTracesOhMyExtensions.cs:line 11
+```
+
 ## TaskFactoryStartNewLongRunning
 
 - `TaskCreationOptions.LongRunning` instruct the TPL to create a background thread (non-pooled thread)                
