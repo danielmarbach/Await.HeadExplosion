@@ -80,6 +80,7 @@ await Continuation(); // <-- affected by line above
 ## Unwrapping
 
 - Async in `Task.Factory.StartNew` returns a proxy task `Task<Task>`
+- `Task.Run` doesn't have this problem that's why it is your friend
 - Proxy task is completed before the actual task is completed
 - Can lead to interesting bugs (seen in the wild many times)
 
@@ -91,6 +92,8 @@ await Continuation(); // <-- affected by line above
 ## CancelTaskOperation
 
 - Cooperative cancelation means the token has to be observed by the implementor
+- The implementor decides what kind of guarantees it can provide
+- For example HttpClient cancelation it can happen that side-effects still occur
 
 ## CancelTaskOperationGraceful
 
@@ -187,6 +190,7 @@ https://github.com/adamsitnik/StateOfTheDotNetPerformance
 - Anything can be awaited with the `GetAwaiter` (istance|static) convention
 - Presence of the method (even in the library) makes things awaitable
 - i.ex. allow to `await Process.Start`
+- Very powerful in combination with `TaskCompletionSource`
 
 ## NotifyCompletion
       
