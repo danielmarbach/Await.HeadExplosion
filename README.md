@@ -4,26 +4,52 @@
 
 ``` ini
 
-BenchmarkDotNet=v0.10.9, OS=Windows 10 Redstone 2 (10.0.15063)
-Processor=Intel Core i7-4980HQ CPU 2.80GHz (Haswell), ProcessorCount=8
-Frequency=2728070 Hz, Resolution=366.5595 ns, Timer=TSC
-.NET Core SDK=2.1.0-preview1-007228
-  [Host]     : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
-  DefaultJob : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
+BenchmarkDotNet=v0.10.13, OS=Windows 10 Redstone 3 [1709, Fall Creators Update] (10.0.16299.309)
+Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical cores and 4 physical cores
+Frequency=1945315 Hz, Resolution=514.0556 ns, Timer=TSC
+.NET Core SDK=2.1.103
+  [Host]   : .NET Core 2.0.6 (CoreCLR 4.6.26212.01, CoreFX 4.6.26212.01), 64bit RyuJIT
+  ShortRun : .NET Core 2.0.6 (CoreCLR 4.6.26212.01, CoreFX 4.6.26212.01), 64bit RyuJIT
 
+Job=ShortRun  LaunchCount=1  TargetCount=3  
+WarmupCount=3  
 
 ```
- |                   Method | Repeats |        Mean |      Error |       StdDev |      Median | Scaled | ScaledSD |   Gen 0 | Allocated |
- |------------------------- |-------- |------------:|-----------:|-------------:|------------:|-------:|---------:|--------:|----------:|
- |              **ConsumeTask** |     **100** |  **1,097.1 ns** |   **7.562 ns** |     **7.073 ns** |  **1,098.4 ns** |   **2.79** |     **0.20** |  **1.1539** |    **7272 B** |
- |    ConsumeValueTaskWrong |     100 |  1,050.5 ns |  43.935 ns |    41.097 ns |  1,035.4 ns |   2.68 |     0.22 |       - |       0 B |
- | ConsumeValueTaskProperly |     100 |    394.6 ns |   9.606 ns |    28.323 ns |    394.7 ns |   1.00 |     0.00 |       - |       0 B |
- |    ConsumeValueTaskCrazy |     100 |    359.1 ns |  11.959 ns |    35.260 ns |    354.8 ns |   0.91 |     0.11 |       - |       0 B |
- |              **ConsumeTask** |    **1000** |  **9,307.1 ns** | **396.345 ns** | **1,091.649 ns** |  **9,501.1 ns** |   **2.00** |     **0.60** | **11.4441** |   **72072 B** |
- |    ConsumeValueTaskWrong |    1000 | 11,073.7 ns | 468.996 ns | 1,382.844 ns | 10,329.0 ns |   2.38 |     0.73 |       - |       0 B |
- | ConsumeValueTaskProperly |    1000 |  5,075.2 ns | 543.450 ns | 1,602.374 ns |  4,455.4 ns |   1.00 |     0.00 |       - |       0 B |
- |    ConsumeValueTaskCrazy |    1000 |  4,140.6 ns | 211.741 ns |   604.109 ns |  4,201.2 ns |   0.89 |     0.28 |       - |       0 B |
+|                   Method | Repeats |        Mean |        Error |       StdDev | Scaled | ScaledSD |   Gen 0 | Allocated |
+|------------------------- |-------- |------------:|-------------:|-------------:|-------:|---------:|--------:|----------:|
+|              **ConsumeTask** |     **100** |    **874.7 ns** |  **3,155.10 ns** |   **178.269 ns** |   **2.54** |     **0.43** |  **1.7328** |    **7272 B** |
+|    ConsumeValueTaskWrong |     100 |    998.2 ns |  1,419.13 ns |    80.183 ns |   2.90 |     0.21 |       - |       0 B |
+| ConsumeValueTaskProperly |     100 |    344.9 ns |    224.85 ns |    12.705 ns |   1.00 |     0.00 |       - |       0 B |
+|    ConsumeValueTaskCrazy |     100 |    361.3 ns |     59.83 ns |     3.380 ns |   1.05 |     0.03 |       - |       0 B |
+|                          |         |             |              |              |        |          |         |           |
+|              **ConsumeTask** |    **1000** | **10,000.4 ns** | **49,937.52 ns** | **2,821.562 ns** |   **3.23** |     **0.76** | **17.1814** |   **72072 B** |
+|    ConsumeValueTaskWrong |    1000 |  9,508.8 ns |  3,116.34 ns |   176.079 ns |   3.07 |     0.14 |       - |       0 B |
+| ConsumeValueTaskProperly |    1000 |  3,103.0 ns |  2,864.84 ns |   161.869 ns |   1.00 |     0.00 |       - |       0 B |
+|    ConsumeValueTaskCrazy |    1000 |  3,283.8 ns |  1,327.09 ns |    74.983 ns |   1.06 |     0.05 |       - |       0 B |
 
+``` ini
+BenchmarkDotNet=v0.10.13, OS=Windows 10 Redstone 3 [1709, Fall Creators Update] (10.0.16299.309)
+Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical cores and 4 physical cores
+Frequency=1945315 Hz, Resolution=514.0556 ns, Timer=TSC
+.NET Core SDK=2.1.300-preview3-008414
+  [Host]   : .NET Core 2.1.0-preview3-26327-02 (CoreCLR 4.6.26327.05, CoreFX 4.6.26327.03), 64bit RyuJIT
+  ShortRun : .NET Core 2.1.0-preview3-26327-02 (CoreCLR 4.6.26327.05, CoreFX 4.6.26327.03), 64bit RyuJIT
+
+Job=ShortRun  LaunchCount=1  TargetCount=3
+WarmupCount=3
+
+```
+|                   Method | Repeats |        Mean |        Error |       StdDev | Scaled | ScaledSD |   Gen 0 | Allocated |
+|------------------------- |-------- |------------:|-------------:|-------------:|-------:|---------:|--------:|----------:|
+|              **ConsumeTask** | 100 |    748.2 ns |    352.92 ns |    19.941 ns |   1.91 |     0.05 |  1.7328 |    7272 B |
+|    ConsumeValueTaskWrong |     100 |  1,186.9 ns |     55.53 ns |     3.138 ns |   3.03 |     0.04 |       - |       0 B |
+| ConsumeValueTaskProperly |     100 |    391.2 ns |    120.52 ns |     6.810 ns |   1.00 |     0.00 |       - |       0 B |
+|    ConsumeValueTaskCrazy |     100 |    276.1 ns |     64.72 ns |     3.657 ns |   0.71 |     0.01 |       - |       0 B |
+|                          |         |             |              |              |        |          |         |           |
+|              **ConsumeTask** |1000 |  7,340.3 ns |  3,718.01 ns |   210.074 ns |   1.96 |     0.05 | 17.1814 |   72072 B |
+|    ConsumeValueTaskWrong |    1000 | 18,480.7 ns | 69,049.35 ns | 3,901.416 ns |   4.93 |     0.85 |       - |       0 B |
+| ConsumeValueTaskProperly |    1000 |  3,747.5 ns |  1,227.71 ns |    69.368 ns |   1.00 |     0.00 |       - |       0 B |
+|    ConsumeValueTaskCrazy |    1000 |  2,576.6 ns |    345.06 ns |    19.496 ns |   0.69 |     0.01 |       - |       0 B |
 
 ## Task Improvements
 
@@ -31,40 +57,46 @@ Frequency=2728070 Hz, Resolution=366.5595 ns, Timer=TSC
 
 ``` ini
 
-BenchmarkDotNet=v0.10.9, OS=Windows 10 Redstone 2 (10.0.15063)
-Processor=Intel Core i7-4980HQ CPU 2.80GHz (Haswell), ProcessorCount=8
-Frequency=2728070 Hz, Resolution=366.5595 ns, Timer=TSC
-.NET Core SDK=2.0.0
-  [Host]     : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
-  Job-MXURVS : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
+BenchmarkDotNet=v0.10.13, OS=Windows 10 Redstone 3 [1709, Fall Creators Update] (10.0.16299.309)
+Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical cores and 4 physical cores
+Frequency=1945315 Hz, Resolution=514.0556 ns, Timer=TSC
+.NET Core SDK=2.1.300-preview3-008414
+  [Host]     : .NET Core 2.0.6 (CoreCLR 4.6.26212.01, CoreFX 4.6.26212.01), 64bit RyuJIT
+  Job-HZSBKB : .NET Core 2.0.6 (CoreCLR 4.6.26212.01, CoreFX 4.6.26212.01), 64bit RyuJIT
 
-Toolchain=CoreCsProj  
+Toolchain=.NET Core 2.0  LaunchCount=1  TargetCount=3  
+WarmupCount=3  
 
 ```
- |  Method |     Mean |     Error |    StdDev | Scaled | Allocated |
- |-------- |---------:|----------:|----------:|-------:|----------:|
- |  Return | 15.61 ms | 0.0150 ms | 0.0140 ms |   1.00 |     528 B |
- |  Simple | 15.61 ms | 0.0184 ms | 0.0172 ms |   1.00 |     744 B |
+|  Method |      Mean |     Error |    StdDev | Scaled | Allocated |
+|-------- |----------:|----------:|----------:|-------:|----------:|
+|  Return | 15.576 ms | 0.4185 ms | 0.0236 ms |   1.00 |     528 B |
+|  Simple | 15.568 ms | 0.8275 ms | 0.0468 ms |   1.00 |     744 B |
+| Actions |  2.008 ms | 0.0756 ms | 0.0043 ms |   0.13 |     560 B |
+
 
 
 ### After
 
 ``` ini
 
-BenchmarkDotNet=v0.10.9, OS=Windows 10 Redstone 2 (10.0.15063)
-Processor=Intel Core i7-4980HQ CPU 2.80GHz (Haswell), ProcessorCount=8
-Frequency=2728070 Hz, Resolution=366.5595 ns, Timer=TSC
-.NET Core SDK=2.1.0-preview1-007228
-  [Host]     : .NET Core 2.1.0-preview1-25719-04 (Framework 4.6.25718.02), 64bit RyuJIT
-  Job-EGQCNX : .NET Core 2.1.0-preview1-25719-04 (Framework 4.6.25718.02), 64bit RyuJIT
+BenchmarkDotNet=v0.10.13, OS=Windows 10 Redstone 3 [1709, Fall Creators Update] (10.0.16299.309)
+Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical cores and 4 physical cores
+Frequency=1945315 Hz, Resolution=514.0556 ns, Timer=TSC
+.NET Core SDK=2.1.300-preview3-008414
+  [Host]     : .NET Core 2.1.0-preview3-26327-02 (CoreCLR 4.6.26327.05, CoreFX 4.6.26327.03), 64bit RyuJIT
+  Job-SLQOHY : .NET Core 2.1.0-preview3-26327-02 (CoreCLR 4.6.26327.05, CoreFX 4.6.26327.03), 64bit RyuJIT
 
-Toolchain=CoreCsProj  
+Toolchain=2.1-preview3  LaunchCount=1  TargetCount=3  
+WarmupCount=3  
 
 ```
- |  Method |     Mean |     Error |    StdDev | Scaled | Allocated |
- |-------- |---------:|----------:|----------:|-------:|----------:|
- |  Return | 15.60 ms | 0.0213 ms | 0.0189 ms |   1.00 |     520 B |
- |  Simple | 15.60 ms | 0.0115 ms | 0.0107 ms |   1.00 |     736 B |
+|  Method |      Mean |     Error |    StdDev | Scaled | Allocated |
+|-------- |----------:|----------:|----------:|-------:|----------:|
+|  Return | 15.542 ms | 1.3313 ms | 0.0752 ms |   1.00 |     376 B |
+|  Simple | 15.538 ms | 1.4433 ms | 0.0815 ms |   1.00 |     488 B |
+| Actions |  1.939 ms | 0.4590 ms | 0.0259 ms |   0.12 |     350 B |
+
 
 
 ## Links
