@@ -187,6 +187,7 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
         Console.WriteLine($"{$"| github.com/danielmarbach/Await.HeadExplosion (*)".PadRight(fullWidth)}|");
+        Console.WriteLine($"{$"| @danielmarbach | planetgeek.ch | LinkedIn : https://goo.gl/YyWJGf".PadRight(fullWidth)}|");
         Console.WriteLine($"|{string.Join("=", Enumerable.Repeat(string.Empty, fullWidth))}|");
         Console.WriteLine(" (*) don't forget to star the repo ;)");
         Console.ForegroundColor = currentColor;
