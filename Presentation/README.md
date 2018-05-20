@@ -204,4 +204,9 @@ https://github.com/adamsitnik/StateOfTheDotNetPerformance
 - Category useless knowledge
 - Make fun of your coworkers
 
+## CustomValueTaskSource
+
+- Very powerful tool to write cached task sources without dropping deep to the async machinery
+- Mostly for framework and library authors
+
 ## MakeFunOfSwissPeople
