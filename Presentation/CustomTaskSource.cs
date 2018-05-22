@@ -1,3 +1,4 @@
+#if NETCOREAPP2_1
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,3 +39,4 @@ sealed class CustomTaskSource : IValueTaskSource
     {
     }
 }
+#endif
