@@ -8,6 +8,7 @@ class NotifyCompletion : IRunnable
 {
     public async Task Run()
     {
+        CultureInfo.CurrentCulture = new CultureInfo("de-ch");
         this.PrintCurrentCulture();
         await CultureInfo.CurrentCulture;
         this.PrintCurrentCulture();
