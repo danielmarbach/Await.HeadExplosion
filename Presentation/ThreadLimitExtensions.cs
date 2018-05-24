@@ -58,6 +58,7 @@ static class ThreadLimitExtensions
 
     public static void PrintOptions(this ThreadLimit runnable, TaskCreationOptions options, bool configureAwait) 
     {
+        Console.Clear();
         Console.WriteLine($"Running with creation options {options} and ConfigureAwait({configureAwait})");
     }
 
