@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-[Order(2)]
+[Order(3)]
 public class TaskRun : IRunnable
 {
     public Task Run()

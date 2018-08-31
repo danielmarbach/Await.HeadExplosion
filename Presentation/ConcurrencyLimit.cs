@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(17)]
+[Order(18)]
 class ConcurrencyLimit : IRunnable
 {
     public async Task Run()

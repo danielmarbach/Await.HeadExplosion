@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-[Order(5)]
+[Order(6)]
 class AsyncAllTheWay : IRunnable
 {
     public Task Run()

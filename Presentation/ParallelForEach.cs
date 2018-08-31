@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-[Order(1)]
+[Order(2)]
 class ParallelForEach : IRunnable
 {
     public Task Run()

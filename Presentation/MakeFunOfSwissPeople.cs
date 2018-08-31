@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 
 #if NETCOREAPP2_1
-[Order(25)]
+[Order(26)]
 #endif
 #if NETCOREAPP2_0
-[Order(24)]
+[Order(25)]
 #endif
 class MakeFunOfSwissPeople : IRunnable
 {

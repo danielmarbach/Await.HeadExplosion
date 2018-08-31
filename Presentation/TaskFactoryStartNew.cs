@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-[Order(3)]
+[Order(4)]
 public class TaskFactoryStartNew : IRunnable
 {
     public Task Run()

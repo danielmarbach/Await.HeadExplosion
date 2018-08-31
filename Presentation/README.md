@@ -4,6 +4,14 @@
 - Extension methods are used to hide non important details
 - `Thread(s)` view will show the last used thread to render the console also refered to as the `main` thread
 
+## ParallelInvoke
+
+- `CpuBound.Compute` contains a quick sort algorithm
+- `Parallel.Invoke` is here to divide and conquer compute bound problems faster by applying parallelism
+- Operations are scheduled on the worker thread pool
+- Multiple arrays of length 5 to 10 will be sorted in parallel
+- Parallel.Invoke is a blocking operation
+
 ## ParallelFor
 
 - `CpuBound.Compute` contains a quick sort algorithm

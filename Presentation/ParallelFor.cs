@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-[Order(0)]
+[Order(1)]
 class ParallelFor : IRunnable
 {
     public Task Run()

@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(19)]
+[Order(20)]
 class TaskCompletion : IRunnable
 {
     public async Task Run()

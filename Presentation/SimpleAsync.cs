@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-[Order(4)]
+[Order(5)]
 class SimpleAsync : IRunnable
 {
     public async Task Run()
