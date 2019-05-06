@@ -51,6 +51,10 @@
 - It defeats the purpose of async when async is called from sync code
 - It is dangerous to call async code from sync code, it can lead to deadlocks.
 
+## UnobservedException
+
+- Only when the finalizers are run the unobserved exception is thrown
+
 ## ConfigureAwait
 
 - `ConfigureAwait` controls whether context capturing is enabled

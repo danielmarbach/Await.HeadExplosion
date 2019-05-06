@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-[Order(24)]
+[Order(25)]
 class CustomBuilder : IRunnable
 {
     public async Task Run()

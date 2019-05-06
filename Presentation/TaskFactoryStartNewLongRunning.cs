@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(17)]
+[Order(18)]
 public class TaskFactoryStartNewLongRunning : IRunnable
 {
     public async Task Run()

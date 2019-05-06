@@ -1,7 +1,7 @@
 #if NETCOREAPP2_1
 using System.Threading.Tasks;
 
-[Order(25)]
+[Order(26)]
 class CustomValueTaskSource : IRunnable
 {
     public async Task Run()

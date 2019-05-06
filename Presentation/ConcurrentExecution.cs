@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-[Order(9)]
+[Order(10)]
 class ConcurrentExecution : IRunnable
 {
     public Task Run()
